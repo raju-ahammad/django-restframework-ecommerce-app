@@ -68,3 +68,17 @@ def signOut(request, id):
     except userModel.DoesNotExist:
         return JsonResponse({'error': 'Inavalid User Id'})
     return JsonResponse({'success':'Logout success' })
+
+class UserViewSet(viewsets.ModelViewSet):
+    permission_classes_by_action = {'create': [AllowAny]}
+    
+    queryset = CustomUser.objects.all().order_by('id')
+    serializer_class = UserSerializers
+    
+    def get_permissions(self):
+        
+        try:
+            return [permission() for permissin in self.permission_classes_by_action[self.action]]
+        except KeyError:
+            return [permission() for permissin in self.permission_classes]
+        
