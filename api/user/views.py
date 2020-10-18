@@ -25,7 +25,7 @@ def signIn(request):
     
     #validation part
     if not re.match("^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$", username):
-        return JsonResponse({'error': 'enter valid email'})
+        return JsonResponse({'error': 'Enter a valid email address.'})
     if len(password) < 3:
         return JsonResponse({'error': 'password need to be at least 3 letter'})
     
