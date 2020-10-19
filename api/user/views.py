@@ -24,8 +24,8 @@ def signIn(request):
     password = request.POST['password']
     
     #validation part
-    if not re.match("^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$", username):
-        return JsonResponse({'error': 'Enter a valid email address.'})
+    # if not re.match("^([\w\.\-_]+)?\w+@[\w-_]+(\.\w+){1,}$", username):
+    #     return JsonResponse({'error': 'Enter a valid email address.'})
     if len(password) < 3:
         return JsonResponse({'error': 'password need to be at least 3 letter'})
     
@@ -33,6 +33,7 @@ def signIn(request):
     
     try:
         user = UserModel.objects.get(email=username)
+        
         if user.check_password(password):
             user_dict  = UserModel.objects.filter(email=username).values().first()
             user_dict.pop('password')
@@ -44,7 +45,7 @@ def signIn(request):
          
             token = generate_session_token()
             user.session_token = token
-            user.save()
+            user.save() 
             login(request, user)
             return JsonResponse({'token': token, 'user': user_dict})    
         else:
