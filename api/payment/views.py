@@ -19,7 +19,7 @@ def validate_user_session(id, token):
     
     try:
         user = UserModel.objects.get(pk=id)
-        if user.session_tokenn = token:
+        if user.session_token == token:
             return True
         return False
         
